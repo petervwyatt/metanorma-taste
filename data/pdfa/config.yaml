@@ -10,7 +10,6 @@ base-override:
     htmlcoverpage: htmlcoverpage.html
     htmlstylesheet-override: htmlstylesheet-override.scss
     pdf-stylesheet-override: pdfa.xsl
-    # relaton-render-config: relaton-render-config.yaml
   value-attributes:
     publisher: PDF Association
     publisher_abbr: PDF Association
@@ -18,7 +17,7 @@ base-override:
     presentation-metadata-backcover-text: pdfa.org
     body-font: "'Source Sans Pro', 'Helvetica Neue', Helvetica, sans-serif"
     header-font: "'Source Sans Pro', 'Helvetica Neue', Helvetica, sans-serif"
-    fonts: Source Sans Pro
+    fonts: Source Sans 3;Source Sans Pro
     output-extensions: xml,html,pdf
     toclevels-html: 6
 doctypes:
@@ -29,15 +28,15 @@ doctypes:
 - taste: application-note # Application Note
   base: report
   override-attributes:
-  - presentation-metadata-color-secondary: '#ca9831'
+  - presentation-metadata-color-secondary: '#d03f4e'
 - taste: technical-note # Technical Note
   base: report
   override-attributes:
-  - presentation-metadata-color-secondary: '#ca9831'
+  - presentation-metadata-color-secondary: '#d03f4e'
 - taste: best-practice-guide # Best Practice Guide
   base: report
   override-attributes:
-  - presentation-metadata-color-secondary: '#4891af'
+  - presentation-metadata-color-secondary: '#d03f4e'
 stages:
   draft:
   release-candidate:
