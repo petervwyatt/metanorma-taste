@@ -20,6 +20,9 @@ base-override:
     fonts: Source Sans 3;Source Sans Pro
     output-extensions: xml,html,pdf
     toclevels-html: 6
+    toc-figures: true
+    toc-tables: true
+    toc-recommendations: true 
 doctypes:
 - taste: specification # Specification # The name goes into i18n.yaml
   base: standard
