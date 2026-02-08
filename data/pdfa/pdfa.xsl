@@ -7,6 +7,7 @@
 		<xsl:attribute name="font-family">Source Sans 3, STIX Two Math, <xsl:value-of select="$font_noto_sans"/></xsl:attribute>
 		<xsl:attribute name="font-size">11pt</xsl:attribute>
 		<xsl:attribute name="font-weight">normal</xsl:attribute>
+		<xsl:attribute name="line-height">1.5</xsl:attribute><!-- line-height needs to be 1.5 for WCAG -->
 		<xsl:attribute name="color">black</xsl:attribute>
 	</xsl:attribute-set>
 
@@ -30,10 +31,10 @@
 		</fo:layout-master-set>
 	</xsl:template>
 		
-	<xsl:variable name="cover_page_color_box1">rgb(202,152,49)</xsl:variable>
-	<xsl:variable name="cover_page_color_box2">rgb(139,152,91)</xsl:variable>
+	<xsl:variable name="cover_page_color_box1">rgb(202,152,49)</xsl:variable><!-- #ca9831 -->
+	<xsl:variable name="cover_page_color_box2">rgb(139,152,91)</xsl:variable><!-- #8b985b -->
 	<xsl:variable name="cover_page_color_box3">rgb(208,63,78)</xsl:variable><!-- #d03f4e -->
-	<xsl:variable name="cover_page_color_box4">rgb(72,145,175)</xsl:variable>
+	<xsl:variable name="cover_page_color_box4">rgb(72,145,175)</xsl:variable><!-- #4891af -->
 	<xsl:variable name="cover_page_color_box_border_width">2.5pt</xsl:variable>
 	<xsl:variable name="cover_page_color_box_height">57mm</xsl:variable>
 	
@@ -61,12 +62,12 @@
 				</fo:block>
 				
 				<!-- Type of document:
-					Specification, Best Practice Guide, Application Note, Technical Note, Extension -->
+					Specification, Best Practice Guide, Application Note, Technical Note, etc. -->
 				<fo:block font-size="29pt" font-weight="bold" text-align="right" margin-top="4mm">
 					<xsl:value-of select="/mn:metanorma/mn:bibdata/mn:ext/mn:doctype[normalize-space(@language) != '']"/>
 				</fo:block>
 				
-				<fo:block-container width="112mm" height="98mm" line-height="1.2" margin-top="4mm" fox:shrink-to-fit="true">
+				<fo:block-container width="112mm" height="98mm" line-height="1.5" margin-top="4mm" fox:shrink-to-fit="true"> <!-- line-height needs to be 1.5 for WCAG -->
 				
 					<xsl:call-template name="insertCoverPageTitles"/>
 					
@@ -236,7 +237,8 @@
 
 	<xsl:variable name="circledChars">
 		<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-			 viewBox="0 0 16 6.6" style="enable-background:new 0 0 16 6.6;" xml:space="preserve">
+			viewBox="0 0 16 6.6" style="enable-background:new 0 0 16 6.6;" xml:space="preserve" role="img" aria-label="Creative Commons logos">
+			<title>Creative Commons logos</title>
 			<style type="text/css">
 				.st0{fill:#010101;}
 			</style>
@@ -264,15 +266,14 @@
 	
 	
 	<xsl:attribute-set name="link-style">
-		<xsl:attribute name="color">rgb(14,85,117)</xsl:attribute>
-		<xsl:attribute name="font-weight">normal</xsl:attribute>
+		<xsl:attribute name="color">rgb(208,63,78)</xsl:attribute><!-- #d03f4e -->
 		<xsl:attribute name="text-decoration">underline</xsl:attribute>
 	</xsl:attribute-set>
 	
 	<xsl:template name="refine_link-style"><?extend?>
 		<xsl:attribute name="font-weight">normal</xsl:attribute>
 	</xsl:template>
-	
+
 	<xsl:template name="insertHeaderFooter">
 		<xsl:call-template name="insertFooter"/>
 	</xsl:template>
@@ -334,7 +335,7 @@
 	</xsl:template>
 	
 	<xsl:attribute-set name="note-style"><?extend?>
-		<xsl:attribute name="background-color">rgb(236,242,246)</xsl:attribute>
+		<xsl:attribute name="background-color">rgb(236,242,246)</xsl:attribute><!-- #ecf2f6 -->
 		<xsl:attribute name="margin-left">0.5mm</xsl:attribute>
 		<xsl:attribute name="margin-right">0.5mm</xsl:attribute>
 		<xsl:attribute name="padding">1mm</xsl:attribute>
