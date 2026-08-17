@@ -400,12 +400,12 @@
 			<xsl:attribute name="space-after">1.5mm</xsl:attribute>
 			<xsl:attribute name="font-weight">normal</xsl:attribute> <!-- avoid bold as it conflicts with PDF notation - rely on color -->
 			<xsl:attribute name="color"><xsl:value-of select="$color_blue"/></xsl:attribute>
+			<xsl:attribute name="keep-with-next">always</xsl:attribute>
 		</xsl:if>
 		<xsl:if test="@level &gt;= 2">
-			<xsl:attribute name="margin-left"><xsl:value-of select="$toc_item_indent"/>mm</xsl:attribute>
+			<xsl:attribute name="margin-left"><xsl:value-of select="(@level - 1) * $toc_item_indent"/>mm</xsl:attribute>
 			<xsl:attribute name="space-before">1.5mm</xsl:attribute>
 			<xsl:attribute name="space-after">1.5mm</xsl:attribute>
-			<xsl:attribute name="color">black</xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 
@@ -1171,10 +1171,10 @@
 	<!-- Replace generic "sans-serif" font with precise Arial, "serif" with precise Times New Roman, and "monospace" with Courier New that were used by PlantUML diagrams -->
 	<!-- All PlantUML figures contain a plantuml processing instruction (whereas @data-diagram-type attribute is NOT always used) -->
 	<xsl:template match="*[processing-instruction('plantuml')]" mode="svg_update">
-			<!-- From the PI, select all sibling elements and all text descendants within them at any depth -->
-			<xsl:apply-templates select="processing-instruction('plantuml')/following-sibling::*/descendant-or-self::*[local-name() = 'text']" mode="svg_update"/>
-			<!-- Also catch text elements that are direct following siblings of the PI (not wrapped in another element) -->
-			<xsl:apply-templates select="processing-instruction('plantuml')/following-sibling::*[local-name() = 'text']" mode="svg_update"/>
+		<!-- From the PI, select all sibling elements and all text descendants within them at any depth -->
+		<xsl:apply-templates select="processing-instruction('plantuml')/following-sibling::*/descendant-or-self::*[local-name() = 'text']" mode="svg_update"/>
+		<!-- Also catch text elements that are direct following siblings of the PI (not wrapped in another element) -->
+		<xsl:apply-templates select="processing-instruction('plantuml')/following-sibling::*[local-name() = 'text']" mode="svg_update"/>
 	</xsl:template>
 
 	<xsl:template match="*[local-name() = 'text']" mode="svg_update">
