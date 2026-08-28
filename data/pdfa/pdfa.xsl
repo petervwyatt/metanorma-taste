@@ -613,7 +613,8 @@
 					<xsl:call-template name="setIDforNamedDestinationInline"/>
 					<xsl:variable name="section-number" select="normalize-space(mn:tab[1]/preceding-sibling::node())"/>
 					<xsl:if test="$section-number != ''">
-						<xsl:value-of select="$section-number"/>&#x2003; <!-- EM space (wider than NBSP) -->
+						<xsl:value-of select="$section-number"/>
+						<fo:leader leader-pattern="space" leader-length.minimum="0.5em" leader-length.optimum="1em" leader-length.maximum="1em"/>
 					</xsl:if>
 					<xsl:call-template name="extractTitle"/> <!-- section title -->
 					<xsl:apply-templates select="following-sibling::*[1][self::mn:variant-title][@type = 'sub']" mode="subtitle"/>
