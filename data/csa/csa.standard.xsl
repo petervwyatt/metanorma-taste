@@ -401,30 +401,8 @@
 
 				<xsl:if test="count(*) = 1 and mn:fmt-title"> <!-- if there isn't user ToC -->
 					<fo:block margin-left="-3mm" role="TOC">
-						<xsl:for-each select="$contents/mnx:doc[@num = $num]//mnx:item[@display = 'true']">
-							<fo:block role="TOCI">
-								<fo:list-block xsl:use-attribute-sets="toc-item-block-style">
-									<xsl:call-template name="refine_toc-item-block-style"/>
-									<fo:list-item>
-										<fo:list-item-label end-indent="label-end()">
-											<fo:block font-size="1pt"> </fo:block>
-										</fo:list-item-label>
-										<fo:list-item-body start-indent="body-start()">
-											<fo:block xsl:use-attribute-sets="toc-item-style">
-												<fo:basic-link internal-destination="{@id}" fox:alt-text="{mnx:title}">
-													<fo:inline padding-right="2mm"><xsl:value-of select="@section"/></fo:inline>
-													<xsl:apply-templates select="mnx:title"/>
-													<fo:inline keep-together.within-line="always">
-														<fo:leader xsl:use-attribute-sets="toc-leader-style"><xsl:call-template name="refine_toc-leader-style"/></fo:leader>
-														<fo:inline><fo:page-number-citation ref-id="{@id}"/></fo:inline>
-													</fo:inline>
-												</fo:basic-link>
-											</fo:block>
-										</fo:list-item-body>
-									</fo:list-item>
-								</fo:list-block>
-							</fo:block>
-						</xsl:for-each>
+
+						<xsl:apply-templates select="$contents/mnx:doc[@num = $num]/mnx:contents/mnx:item[@display = 'true']"/>
 
 						<!-- List of Tables -->
 						<xsl:if test="$contents/mnx:doc[@num = $num]//mnx:tables/mnx:table">
@@ -474,6 +452,39 @@
 		<fo:block xsl:use-attribute-sets="toc-title-style">
 			<xsl:call-template name="refine_toc-title-style"/>
 			<xsl:apply-templates/>
+		</fo:block>
+	</xsl:template>
+
+	<xsl:template match="mnx:contents//mnx:item[@display = 'true']">
+		<fo:block role="TOCI">
+			<fo:list-block xsl:use-attribute-sets="toc-item-block-style" role="SKIP">
+				<xsl:call-template name="refine_toc-item-block-style"/>
+				<fo:list-item role="SKIP">
+					<fo:list-item-label end-indent="label-end()" role="SKIP">
+						<fo:block font-size="1pt" role="SKIP"><fo:wrapper role="artifact"> </fo:wrapper></fo:block>
+					</fo:list-item-label>
+					<fo:list-item-body start-indent="body-start()" role="SKIP">
+						<fo:block xsl:use-attribute-sets="toc-item-style">
+							<fo:inline role="Lbl"><xsl:value-of select="@section"/></fo:inline>
+							<fo:wrapper role="Reference">
+								<fo:basic-link internal-destination="{@id}" fox:alt-text="{mnx:title}">
+									<xsl:apply-templates select="mnx:title"/>
+									<fo:inline keep-together.within-line="always" role="SKIP">
+										<fo:leader xsl:use-attribute-sets="toc-leader-style"><xsl:call-template name="refine_toc-leader-style"/></fo:leader>
+										<fo:inline role="SKIP"><fo:page-number-citation ref-id="{@id}" role="SKIP"/></fo:inline>
+									</fo:inline>
+								</fo:basic-link>
+							</fo:wrapper>
+						</fo:block>
+					</fo:list-item-body>
+				</fo:list-item>
+			</fo:list-block>
+
+			<xsl:if test="mnx:item[@display = 'true']">
+				<fo:block role="TOC">
+					<xsl:apply-templates select="mnx:item[@display = 'true']"/>
+				</fo:block>
+			</xsl:if>
 		</fo:block>
 	</xsl:template>
 
@@ -5539,6 +5550,10 @@
 				<!-- <Caption><P> tags, see https://github.com/metanorma/metanorma-pdfa/issues/81 -->
 				<fo:block role="P">
 
+					<xsl:if test="$continued = 'true'">
+						<xsl:attribute name="role">SKIP</xsl:attribute>
+					</xsl:if>
+
 					<xsl:choose>
 						<xsl:when test="$continued = 'true'">
 						</xsl:when>
@@ -5548,7 +5563,7 @@
 					</xsl:choose>
 
 				</fo:block>
-			</fo:block>
+			</fo:block> <!-- END: Table name -->
 
 			<!-- <xsl:if test="$namespace = 'bsi' or $namespace = 'pas' or $namespace = 'iec' or $namespace = 'iso'"> -->
 			<xsl:if test="$continued = 'true'">
@@ -14342,13 +14357,13 @@
 			</xsl:if>
 		</xsl:variable>
 		<xsl:variable name="title__">
-			<xsl:for-each select="xalan:nodeset($title_)/*/node()">
-				<!-- <xsl:choose>
+			<!--  <xsl:for-each select="xalan:nodeset($title_)/*/node()">
+				<xsl:choose>
 					<xsl:when test="self::text()"><xsl:text> </xsl:text><xsl:value-of select="."/><xsl:text> </xsl:text></xsl:when>
 					<xsl:otherwise><xsl:text> </xsl:text><xsl:copy-of select="."/><xsl:text> </xsl:text></xsl:otherwise>
-				</xsl:choose> -->
-				<xsl:apply-templates select="xalan:nodeset($title_)" mode="addTagElementT"/>
-			</xsl:for-each>
+				</xsl:choose
+			</xsl:for-each> -->
+			<xsl:apply-templates select="xalan:nodeset($title_)" mode="addTagElementT"/>
 		</xsl:variable>
 		<xsl:variable name="title" select="normalize-space(translate($title__, concat($em_space,' &#8232;'), '   '))"/>
 		<xsl:if test="$title != ''">
