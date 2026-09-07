@@ -721,6 +721,9 @@
 		<xsl:attribute name="margin-top">2mm</xsl:attribute>
 		<xsl:attribute name="margin-bottom">2mm</xsl:attribute>
 		<xsl:attribute name="padding">1mm</xsl:attribute>
+		<xsl:if test="ancestor::mn:li">
+			<xsl:attribute name="margin-left">8.5mm</xsl:attribute> <!-- List item notes need larger left indent to align with list item body, not bullet -->
+		</xsl:if>
 		<xsl:if test="ancestor::mn:bibitem">
 			<xsl:attribute name="keep-with-previous">always</xsl:attribute> <!-- keep biblio notes with their bibliographic reference -->
 			<xsl:attribute name="margin-left">8.5mm</xsl:attribute> <!-- Biblio notes need larger left indent to align with hanging para -->
@@ -1172,10 +1175,10 @@
 	<!-- Replace generic "sans-serif" font with precise Arial, "serif" with precise Times New Roman, and "monospace" with Courier New that were used by PlantUML diagrams -->
 	<!-- All PlantUML figures contain a plantuml processing instruction (whereas @data-diagram-type attribute is NOT always used) -->
 	<xsl:template match="*[processing-instruction('plantuml')]" mode="svg_update">
-			<!-- From the PI, select all sibling elements and all text descendants within them at any depth -->
-			<xsl:apply-templates select="processing-instruction('plantuml')/following-sibling::*/descendant-or-self::*[local-name() = 'text']" mode="svg_update"/>
-			<!-- Also catch text elements that are direct following siblings of the PI (not wrapped in another element) -->
-			<xsl:apply-templates select="processing-instruction('plantuml')/following-sibling::*[local-name() = 'text']" mode="svg_update"/>
+		<!-- From the PI, select all sibling elements and all text descendants within them at any depth -->
+		<xsl:apply-templates select="processing-instruction('plantuml')/following-sibling::*/descendant-or-self::*[local-name() = 'text']" mode="svg_update"/>
+		<!-- Also catch text elements that are direct following siblings of the PI (not wrapped in another element) -->
+		<xsl:apply-templates select="processing-instruction('plantuml')/following-sibling::*[local-name() = 'text']" mode="svg_update"/>
 	</xsl:template>
 
 	<xsl:template match="*[local-name() = 'text']" mode="svg_update">
